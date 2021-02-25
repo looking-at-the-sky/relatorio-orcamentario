@@ -1,0 +1,507 @@
+<html>
+<head>
+	<link type="text/css" rel="stylesheet" href="/style-guide/css/fluig-style-guide.min.css"/>
+	<link type="text/css" rel="stylesheet" href="orcamento.css"/>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/mustache/mustache-min.js"></script>
+	<script type="text/javascript" src="/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/webdesk/vcXMLRPC.js" charset="utf-8"></script>
+	<script type="text/javascript" src="jquery.maskMoney.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="orcamento.js" charset="utf-8"></script>
+</head>
+<body>
+	<div class="fluig-style-guide">
+		<div class="page-header">
+		    <h1>Orçamento <span id="spanAno"></span></h1>
+		</div>
+		
+		<form name="form" role="form">
+			<input type="hidden" class="form-control limpaCampo" name="sequenciaPF" id="sequenciaPF">
+			<input type="hidden" class="form-control" name="selAno" id="selAno" readonly="readonly">
+			<input type="hidden" class="form-control" name="aprovadorOrc" id="aprovadorOrc" readonly="readonly">
+            <input type="hidden" name="txtWKNumProcess" id="txtWKNumProcess">
+            <input type="hidden" name="statusProcess" id="statusProcess"> <!-- Aberta | Finalizada | Cancelada -->
+            <input type="hidden" class="form-control" name="codCCSolicitante" id="codCCSolicitante">
+            <input type="hidden" class="form-control" name="desCCSolicitante" id="desCCSolicitante">
+            <input type="hidden" class="form-control" name="numProcessPrincipal" id="numProcessPrincipal">
+
+			<div class="container-fluid">
+				<div class="row" id="divSelecionarAno">
+					<div class="form-group col-xs-12 col-sm-6 col-md-2 col-lg-2">
+						<label class="control-label" for="selecionarAno">Selecionar Ano</label>
+						<select class="form-control" name="selecionarAno" id="selecionarAno"></select>
+					</div>
+				</div>
+				
+		    	<div class="row">
+					<div class="form-group col-xs-12 col-sm-6 col-md-2 col-lg-2">
+						<label class="control-label" for="dataSolicitacao">Data Solicitação</label>
+						<input type="text" class="form-control" name="dataSolicitacao" id="dataSolicitacao" readonly="readonly">
+					</div>
+					
+					<div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-4">
+						<label class="control-label" for="nomeSolicitante">Nome Solicitante</label>
+						<input type="text" class="form-control" name="nomeSolicitante" id="nomeSolicitante" readonly="readonly">
+					</div>
+					
+					<div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6" id="divTipoOrcamento">
+						<label class="control-label" for="tipoOrcamento">Tipo de Orçamento</label>
+						<div class="radio">
+							<label>
+								<input type="radio" name="tipoOrcamento" id="tipoOrcamentoAreas" value="Áreas" checked> Áreas
+						    </label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="tipoOrcamento" id="tipoOrcamentoAssistencial" value="Assistencial"> Assistencial
+						    </label>
+						</div>
+					</div>
+		    	</div>
+			
+		    	<div class="row">
+					<div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
+						<label class="control-label" for="meuCentroCusto">Meu Centro de Custo</label>
+						<input type="hidden" class="form-control" name="desmeuCentroCusto" id="desmeuCentroCusto" readonly="readonly">						
+						<div class="input-group">
+							<span class="input-group-addon">
+								<input type="text" class="fs-no-style-input" id="codmeuCentroCusto" name="codmeuCentroCusto" readonly="readonly">
+							</span>
+							<input type="zoom" class="form-control" id="meuCentroCusto" name="meuCentroCusto"
+							    data-zoom="{
+							        'displayKey':'CTT_DESC01',
+							        'datasetId':'dsCentroCustoProtheus',
+							        'placeholder':'Escolha o Centro de Custo',
+							        'fields':[
+							            {
+							               'field':'CTT_CUSTO',
+							               'label':'Código'
+							            },{
+							              'field':'CTT_DESC01',
+							              'label':'Descrição',
+							              'standard':'true'
+							            }
+							        ]
+							     }"
+							/>
+						</div>
+					</div>
+					
+					<div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
+						<label class="control-label" for="centroCustoDespesa">Centro de custo da despesa</label>
+						<!-- <input type="text" class="form-control limpaCampo" name="centroCustoDespesa" id="centroCustoDespesa"> -->
+						<div class="input-group">
+							<span class="input-group-addon">
+								<input type="text" class="fs-no-style-input" id="codcentroCustoDespesa" name="codcentroCustoDespesa" readonly="readonly">
+							</span>
+							<input type="zoom" class="form-control" id="centroCustoDespesa" name="centroCustoDespesa"
+							    data-zoom="{
+							        'displayKey':'CTT_DESC01',
+							        'datasetId':'dsCentroCustoProtheus',
+							        'placeholder':'Escolha o Centro de Custo',
+							        'fields':[
+							            {
+							               'field':'CTT_CUSTO',
+							               'label':'Código'
+							            },{
+							              'field':'CTT_DESC01',
+							              'label':'Descrição',
+							              'standard':'true'
+							            }
+							        ]
+							     }"
+							/>
+						</div>
+					</div>
+		    	</div>
+		    	
+		    	<div class="row">
+					<div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
+						<label class="control-label" for="itemContabil">Item Contábil (Evento)</label>
+						<!-- <input type="text" class="form-control limpaCampo" name="itemContabil" id="itemContabil"> -->
+						<div class="input-group">
+							<span class="input-group-addon">
+								<input type="text" class="fs-no-style-input" id="coditemContabil" name="coditemContabil" readonly="readonly">
+							</span>
+							<input type="zoom" class="form-control" id="itemContabil" name="itemContabil"
+							    data-zoom="{
+							        'displayKey':'CTD_DESC01',
+							        'datasetId':'dsItemContabilProtheus',
+							        'placeholder':'Escolha o Item Contábil',
+							        'fields':[
+							            {
+							               'field':'CTD_ITEM',
+							               'label':'Código'
+							            },{
+							              'field':'CTD_DESC01',
+							              'label':'Descrição',
+							              'standard':'true'
+							            }
+							        ]
+							     }"
+							/>
+						</div>
+					</div>
+					
+					<div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
+						<label class="control-label" for="contaOrcamentaria">Conta Orçamentária</label>
+						<!-- <input type="text" class="form-control limpaCampo" name="contaOrcamentaria" id="contaOrcamentaria"> -->
+						<div class="input-group">
+							<span class="input-group-addon">
+								<input type="text" class="fs-no-style-input" id="codcontaOrcamentaria" name="codcontaOrcamentaria" readonly="readonly">
+							</span>
+							<input type="zoom" class="form-control" id="contaOrcamentaria" name="contaOrcamentaria"
+							    data-zoom="{
+							        'displayKey':'AK5_DESCRI',
+							        'datasetId':'dsContaOrcamentariaProtheus',
+							        'placeholder':'Escolha a Conta Orçamentária',
+							        'fields':[
+							            {
+							               'field':'AK5_CODIGO',
+							               'label':'Código'
+							            },{
+							              'field':'AK5_DESCRI',
+							              'label':'Descrição',
+							              'standard':'true'
+							            }
+							        ]
+							     }"
+							/>
+						</div>
+					</div>
+		    	</div>
+		    	
+		    	<div class="row">
+					<div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
+						<label class="control-label" for="itemContabilNaoCad">Item Contábil não cadastrado</label>
+						<input type="text" class="form-control limpaCampo" name="itemContabilNaoCad" id="itemContabilNaoCad">
+					</div>
+		    	</div>
+		    	
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Informe o valor do Orçamento Detalhado por mês</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="form-group col-xs-12 col-sm-4 col-md-3 col-lg-3">
+								<label class="control-label" for="orcJan">Janeiro</label>
+								<div class="input-group">
+									<span class="input-group-addon">R$</span>
+									<input type="text" class="form-control input-sm moneyOrc limpaValor" name="orcJan" id="orcJan" value="0,00">
+								</div>
+							</div>
+							
+							<div class="form-group col-xs-12 col-sm-4 col-md-3 col-lg-3">
+								<label class="control-label" for="orcFev">Fevereiro</label>
+								<div class="input-group">
+									<span class="input-group-addon">R$</span>
+									<input type="text" class="form-control input-sm moneyOrc limpaValor" name="orcFev" id="orcFev" value="0,00">
+								</div>
+							</div>
+							
+							<div class="form-group col-xs-12 col-sm-4 col-md-3 col-lg-3">
+								<label class="control-label" for="orcMar">Março</label>
+								<div class="input-group">
+									<span class="input-group-addon">R$</span>
+									<input type="text" class="form-control input-sm moneyOrc limpaValor" name="orcMar" id="orcMar" value="0,00">
+								</div>
+							</div>
+							
+							<div class="form-group col-xs-12 col-sm-4 col-md-3 col-lg-3">
+								<label class="control-label" for="orcAbr">Abril</label>
+								<div class="input-group">
+									<span class="input-group-addon">R$</span>
+									<input type="text" class="form-control input-sm moneyOrc limpaValor" name="orcAbr" id="orcAbr" value="0,00">
+								</div>
+							</div>
+							
+							<div class="form-group col-xs-12 col-sm-4 col-md-3 col-lg-3">
+								<label class="control-label" for="orcMai">Maio</label>
+								<div class="input-group">
+									<span class="input-group-addon">R$</span>
+									<input type="text" class="form-control input-sm moneyOrc limpaValor" name="orcMai" id="orcMai" value="0,00">
+								</div>
+							</div>
+							
+							<div class="form-group col-xs-12 col-sm-4 col-md-3 col-lg-3">
+								<label class="control-label" for="orcJun">Junho</label>
+								<div class="input-group">
+									<span class="input-group-addon">R$</span>
+									<input type="text" class="form-control input-sm moneyOrc limpaValor" name="orcJun" id="orcJun" value="0,00">
+								</div>
+							</div>
+							
+							<div class="form-group col-xs-12 col-sm-4 col-md-3 col-lg-3">
+								<label class="control-label" for="orcJul">Julho</label>
+								<div class="input-group">
+									<span class="input-group-addon">R$</span>
+									<input type="text" class="form-control input-sm moneyOrc limpaValor" name="orcJul" id="orcJul" value="0,00">
+								</div>
+							</div>
+							
+							<div class="form-group col-xs-12 col-sm-4 col-md-3 col-lg-3">
+								<label class="control-label" for="orcAgo">Agosto</label>
+								<div class="input-group">
+									<span class="input-group-addon">R$</span>
+									<input type="text" class="form-control input-sm moneyOrc limpaValor" name="orcAgo" id="orcAgo" value="0,00">
+								</div>
+							</div>
+							
+							<div class="form-group col-xs-12 col-sm-4 col-md-3 col-lg-3">
+								<label class="control-label" for="orcSet">Setembro</label>
+								<div class="input-group">
+									<span class="input-group-addon">R$</span>
+									<input type="text" class="form-control input-sm moneyOrc limpaValor" name="orcSet" id="orcSet" value="0,00">
+								</div>
+							</div>
+							
+							<div class="form-group col-xs-12 col-sm-4 col-md-3 col-lg-3">
+								<label class="control-label" for="orcOut">Outubro</label>
+								<div class="input-group">
+									<span class="input-group-addon">R$</span>
+									<input type="text" class="form-control input-sm moneyOrc limpaValor" name="orcOut" id="orcOut" value="0,00">
+								</div>
+							</div>
+							
+							<div class="form-group col-xs-12 col-sm-4 col-md-3 col-lg-3">
+								<label class="control-label" for="orcNov">Novembro</label>
+								<div class="input-group">
+									<span class="input-group-addon">R$</span>
+									<input type="text" class="form-control input-sm moneyOrc limpaValor" name="orcNov" id="orcNov" value="0,00">
+								</div>
+							</div>
+							
+							<div class="form-group col-xs-12 col-sm-4 col-md-3 col-lg-3">
+								<label class="control-label" for="orcDez">Dezembro</label>
+								<div class="input-group">
+									<span class="input-group-addon">R$</span>
+									<input type="text" class="form-control input-sm moneyOrc limpaValor" name="orcDez" id="orcDez" value="0,00">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel-footer">
+						<h3 class="panel-title">TOTAL ORÇADO: R$ <input type="text" class="fs-no-style-input limpaValor" name="totalOrcado" id="totalOrcado" readonly="readonly" value="0,00"></h3>
+					</div>
+				</div>
+				
+		    	<div class="row">
+		    		<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<label class="control-label" for="observacao">Observação</label>
+						<textarea class="form-control limpaCampo" name="observacao" id="observacao" rows="3"></textarea>
+					</div>
+		    	</div>
+
+		    	<div class="row">
+					<div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
+						<button type="button" class="btn btn-unimed1" id="btn_addOrcamentoDetMes">Adicionar Orçamento Detalhado por mês</button>
+					</div>
+		    	</div>
+		    	
+				<div class="panel panel-default" id="divOrcamento"></div>
+				
+				<div class="panel panel-default" id="divAprovacaoOrcamento">
+					<div class="panel-heading">
+						<h3 class="panel-title">Aprovação Orçamento	</h3>
+					</div>
+					<div class="panel-body">
+				    	<div class="row">
+							<div class="form-group col-xs-12 col-sm-6 col-md-2 col-lg-2">
+								<label class="control-label" for="aprovarOrcamento">Aprovado?</label>
+								<select class="form-control" name="aprovarOrcamento" id="aprovarOrcamento">
+									<option value=""> - </option>
+									<option value="Sim">Sim</option>
+									<option value="Não">Não</option>
+								</select>
+							</div>
+				    	</div>
+				    	
+						<div class="row" id="divObsAprovOrcamento">
+							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<label class="control-label" for="obsAprovOrcamento">Observação</label>
+								<textarea rows="3" class="form-control" name="obsAprovOrcamento" id="obsAprovOrcamento"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+		    </div>
+		    
+			<table tablename="tbOrcamento" noaddbutton=true nodeletebutton=true id="tbOrcamento" style="display:none">
+				<thead>
+					<tr>
+						<th>Data</th>
+						<th>Solicitante</th>
+						<th>Tipo Orçamento</th>
+						<th>Centro Custo</th>
+						<th>Centro Custo Despesa</th>
+						<th>Conta Orcamentaria</th>
+						<th>Item Contábil</th>
+						<th>Janeiro</th>
+						<th>Fevereiro</th>
+						<th>Março</th>
+						<th>Abril</th>
+						<th>Maio</th>
+						<th>Junho</th>
+						<th>Julho</th>
+						<th>Agosto</th>
+						<th>Setembro</th>
+						<th>Outubro</th>
+						<th>Novembro</th>
+						<th>Dezembro</th>
+						<th>Total</th>
+						<th>Observação</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<input type="text" name="dataInclusao" id="dataInclusao">
+						</td>
+						<td>
+							<input type="text" name="solicitanteInclu" id="solicitanteInclu">
+						</td>
+						<td>
+							<input type="text" name="tipoOrcamentoPF" id="tipoOrcamentoPF">
+						</td>
+						<td>
+							<input type="text" name="codcc" id="codcc">
+							<input type="text" name="cc" id="cc">
+						</td>
+						<td>
+							<input type="text" name="codccDespesa" id="codccDespesa">
+							<input type="text" name="ccDespesa" id="ccDespesa">
+						</td>
+						<td>
+							<input type="text" name="codcontaOrc" id="codcontaOrc">
+							<input type="text" name="contaOrc" id="contaOrc">
+						</td>
+						<td>
+							<input type="text" name="coditemContab" id="coditemContab">
+							<input type="text" name="itemContab" id="itemContab">
+						</td>
+						<td>
+							<input type="text" name="janeiro" id="janeiro">
+						</td>
+						<td>
+							<input type="text" name="fevereiro" id="fevereiro">
+						</td>
+						<td>
+							<input type="text" name="marco" id="marco">
+						</td>
+						<td>
+							<input type="text" name="abril" id="abril">
+						</td>
+						<td>
+							<input type="text" name="maio" id="maio">
+						</td>
+						<td>
+							<input type="text" name="junho" id="junho">
+						</td>
+						<td>
+							<input type="text" name="julho" id="julho">
+						</td>
+						<td>
+							<input type="text" name="agosto" id="agosto">
+						</td>
+						<td>
+							<input type="text" name="setembro" id="setembro">
+						</td>
+						<td>
+							<input type="text" name="outubro" id="outubro">
+						</td>
+						<td>
+							<input type="text" name="novembro" id="novembro">
+						</td>
+						<td>
+							<input type="text" name="dezembro" id="dezembro">
+						</td>
+						<td>
+							<input type="text" name="totalAno" id="totalAno">
+						</td>
+						<td>
+							<textarea name="observacaoOrc" id="observacaoOrc" rows="3"></textarea>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+	
+    <script id="templateOrcamento" type="x-tmpl-mustache">
+		<div class="panel-heading">
+			<h3 class="panel-title">Contas adicionadas</h3>
+		</div>
+		<div class="panel-body">
+			<table class="table table-striped table-bordered table-condensed">
+				<thead>
+					<tr>
+						<th>Data</th>
+						<th>Solicitante</th>
+						<th>Centro de Custo</th>
+						<th>Centro de Custo da Despesa</th>
+						<th>Conta Orçamentária</th>
+						<th>Item Contábil</th>
+						<th class="text-right">Total</th>
+						<th class="text-center">Ações</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{#linhas}}
+						{{#agrupador}}
+							<tr class="UnimedTotal">
+								<td colspan="6" class="text-right"><strong>{{#itemContab}}TOTAL Item Contábil: <u>{{ itemContab }}</u>{{/itemContab}}{{^itemContab}}TOTAL de Lançamentos <u>SEM ITEM CONTÁBIL</u>{{/itemContab}}</strong></td>
+								<td class="text-right fs-break-text"><strong>R$ {{ total }}</strong></td>
+								<td></td>
+							</tr>
+						{{/agrupador}}
+						{{^agrupador}}
+							{{#agrupadorCCDesp}}
+								<tr class="UnimedTotalCC">
+									<td colspan="6" class="text-right"><strong>TOTAL Centro de Custo Despesa: <u>{{ centroCustoDesp }}</u></strong></td>
+									<td class="text-right fs-break-text"><strong>R$ {{ total }}</strong></td>
+									<td></td>
+								</tr>
+							{{/agrupadorCCDesp}}
+							{{^agrupadorCCDesp}}
+								{{#agrupadorGeral}}
+									<tr class="UnimedTotalGeral">
+										<td colspan="6" class="text-right"><strong>TOTAL do Orçamento para o Centro de Custo: <u>{{ centroCusto }}</u></strong></td>
+										<td class="text-right fs-break-text"><strong>R$ {{ total }}</strong></td>
+										<td></td>
+									</tr>
+								{{/agrupadorGeral}}
+								{{^agrupadorGeral}}
+									<tr data-sequencia={{ seqPF }}>
+										<td>{{ data }}</td>
+										<td>{{ solicitante }}</td>
+										<td>{{ centroCusto }}</td>
+										<td>{{ centroCustoDesp }}</td>
+										<td>{{ contaOrcament }}</td>
+										<td>{{ itemContab }}</td>
+										<td class="text-right fs-break-text">R$ {{ total }}</td>
+										<td class="text-center">
+											<div class="btn-group">
+												<button type="button" class="btn btn-default btn_edit" data-sequencia={{ seqPF }}>
+													<i class="flaticon flaticon-edit-square"></i>
+												</button>
+												<button type="button" class="btn btn-default btn_delete" data-sequencia={{ seqPF }}>
+													<i class="flaticon flaticon-close"></i>
+												</button>
+												<button type="button" class="btn btn-default btn_modal" data-sequencia={{ seqPF }}>
+													<i class="flaticon flaticon-search-zoom"></i>
+												</button>
+											</div>
+										</td>
+									</tr>
+								{{/agrupadorGeral}}
+							{{/agrupadorCCDesp}}
+						{{/agrupador}}
+					{{/linhas}}
+				</tbody>
+			</table>
+		</div>
+    </script>
+</body>
+</html>

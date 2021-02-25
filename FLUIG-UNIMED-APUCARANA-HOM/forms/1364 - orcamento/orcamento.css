@@ -1,0 +1,85 @@
+.moneyOrc {
+	text-align: right;
+}
+
+.fluig-style-guide .btn-unimed1 {
+    color: #fff;
+    background-color: #411564;
+}
+
+.fluig-style-guide .btn-unimed1:hover {
+    color: #fff!important;
+    background-color: #411564;
+}
+
+.fluig-style-guide .table>tbody>tr.UnimedTotal>td, 
+.fluig-style-guide .table>tbody>tr.UnimedTotal>th, 
+.fluig-style-guide .table>tbody>tr>td.UnimedTotal, 
+.fluig-style-guide .table>tbody>tr>th.UnimedTotal, 
+.fluig-style-guide .table>tfoot>tr.UnimedTotal>td, 
+.fluig-style-guide .table>tfoot>tr.UnimedTotal>th, 
+.fluig-style-guide .table>tfoot>tr>td.UnimedTotal, 
+.fluig-style-guide .table>tfoot>tr>th.UnimedTotal, 
+.fluig-style-guide .table>thead>tr.UnimedTotal>td, 
+.fluig-style-guide .table>thead>tr.UnimedTotal>th, 
+.fluig-style-guide .table>thead>tr>td.UnimedTotal, 
+.fluig-style-guide .table>thead>tr>th.UnimedTotal {
+    background-color: #FFF0C7;
+}
+
+.fluig-style-guide .table>tbody>tr.UnimedTotal>td, 
+.fluig-style-guide .table>tbody>tr.UnimedTotal>th, 
+.fluig-style-guide .table>tfoot>tr.UnimedTotal>td, 
+.fluig-style-guide .table>tfoot>tr.UnimedTotal>th, 
+.fluig-style-guide .table>thead>tr.UnimedTotal>td, 
+.fluig-style-guide .table>thead>tr.UnimedTotal>th {
+    color: #000;
+}
+
+.fluig-style-guide .table>tbody>tr.UnimedTotalCC>td, 
+.fluig-style-guide .table>tbody>tr.UnimedTotalCC>th, 
+.fluig-style-guide .table>tbody>tr>td.UnimedTotalCC, 
+.fluig-style-guide .table>tbody>tr>th.UnimedTotalCC, 
+.fluig-style-guide .table>tfoot>tr.UnimedTotalCC>td, 
+.fluig-style-guide .table>tfoot>tr.UnimedTotalCC>th, 
+.fluig-style-guide .table>tfoot>tr>td.UnimedTotalCC, 
+.fluig-style-guide .table>tfoot>tr>th.UnimedTotalCC, 
+.fluig-style-guide .table>thead>tr.UnimedTotalCC>td, 
+.fluig-style-guide .table>thead>tr.UnimedTotalCC>th, 
+.fluig-style-guide .table>thead>tr>td.UnimedTotalCC, 
+.fluig-style-guide .table>thead>tr>th.UnimedTotalCC {
+    background-color: #FFCB08;
+}
+
+.fluig-style-guide .table>tbody>tr.UnimedTotalCC>td, 
+.fluig-style-guide .table>tbody>tr.UnimedTotalCC>th, 
+.fluig-style-guide .table>tfoot>tr.UnimedTotalCC>td, 
+.fluig-style-guide .table>tfoot>tr.UnimedTotalCC>th, 
+.fluig-style-guide .table>thead>tr.UnimedTotalCC>td, 
+.fluig-style-guide .table>thead>tr.UnimedTotalCC>th {
+    color: #000;
+}
+
+.fluig-style-guide .table>tbody>tr.UnimedTotalGeral>td, 
+.fluig-style-guide .table>tbody>tr.UnimedTotalGeral>th, 
+.fluig-style-guide .table>tbody>tr>td.UnimedTotalGeral, 
+.fluig-style-guide .table>tbody>tr>th.UnimedTotalGeral, 
+.fluig-style-guide .table>tfoot>tr.UnimedTotalGeral>td, 
+.fluig-style-guide .table>tfoot>tr.UnimedTotalGeral>th, 
+.fluig-style-guide .table>tfoot>tr>td.UnimedTotalGeral, 
+.fluig-style-guide .table>tfoot>tr>th.UnimedTotalGeral, 
+.fluig-style-guide .table>thead>tr.UnimedTotalGeral>td, 
+.fluig-style-guide .table>thead>tr.UnimedTotalGeral>th, 
+.fluig-style-guide .table>thead>tr>td.UnimedTotalGeral, 
+.fluig-style-guide .table>thead>tr>th.UnimedTotalGeral {
+    background-color: #411564;
+}
+
+.fluig-style-guide .table>tbody>tr.UnimedTotalGeral>td, 
+.fluig-style-guide .table>tbody>tr.UnimedTotalGeral>th, 
+.fluig-style-guide .table>tfoot>tr.UnimedTotalGeral>td, 
+.fluig-style-guide .table>tfoot>tr.UnimedTotalGeral>th, 
+.fluig-style-guide .table>thead>tr.UnimedTotalGeral>td, 
+.fluig-style-guide .table>thead>tr.UnimedTotalGeral>th {
+    color: #FFF;
+}
